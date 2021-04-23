@@ -9,7 +9,7 @@ namespace PedidosYa.Services
 {
     public static class DbServices
     {
-        private static string ConnectionString { get; set; } = "Data Source=.\\LiteDb.db; Version = 3; New = True; Compress = True;";
+        private static string ConnectionString { get; set; } = "Data Source=./LiteDb.db; Version = 3; New = True; Compress = True;";
         public static List<Restaurant> GetAllRestaurants()
         {
             List<Restaurant> restaurants = new List<Restaurant>();
