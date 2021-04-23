@@ -1,0 +1,49 @@
+﻿@page "/map"
+@inject ToShare ToShare
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
+
+@if (ToShare.Order != null)
+{
+    <h1>¡Haz click donde quieres que lleven tu comida!</h1>
+    <div id="map" style="height:500px;width:100%;" @onclick="FirstClick"></div>
+}
+
+@if (showCommit)
+{
+    <br />
+    <button @onclick="Commit">Aceptar</button>
+}
+
+@if (confirmation)
+{
+    <p>¡Tu pedido ya va en camino!</p>
+}
+
+@code
+{
+    private bool showCommit = false;
+    private bool confirmation = false;
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && ToShare.Order == null)
+        {
+            NavigationManager.NavigateTo("/");
+        }
+        else
+        {
+            await JSRuntime.InvokeVoidAsync("initialize",
+                ToShare.Order.Restaurant.Name,
+                ToShare.Order.Restaurant.Latitude,
+                ToShare.Order.Restaurant.Longitude);
+        }
+    }
+    private void FirstClick() => showCommit = true;
+    private async Task Commit()
+    {
+        await Task.Run(() => { confirmation = true; });
+        //Save something in db
+        Thread.Sleep(3000);
+        NavigationManager.NavigateTo("/", true);
+    }
+}
