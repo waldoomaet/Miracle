@@ -53,7 +53,7 @@
 @code{
     private string input = "";
     private int amount = 1;
-    private List<Restaurant> restaurants =  new List<Restaurant>();
+    //private List<Restaurant> restaurants =  new List<Restaurant>();
     private bool restaurantFound = false;
     private bool restaurantNotFound = false;
     private bool mealAmount = false;
@@ -61,7 +61,7 @@
     private Meal currentMeal;
     private Order order;
 
-    protected override void OnInitialized()
+    /*protected override void OnInitialized()
     {
         // All this has to come from db
         List<Meal> menu = new List<Meal>()
@@ -71,7 +71,7 @@
             new Meal("Buffalo wings", "Tasty BBQ bathed buffalo wings", 6.0)
         };
         restaurants.Add(new Restaurant("Wendy's", 18.463870, -69.960820, 4.8, menu));
-    }
+    }*/
 
     private void ChooseAmount(Meal meal)
     {
@@ -94,7 +94,7 @@
         order = null;
         restaurantFound = false;
         restaurantNotFound = false;
-        currentRestaurant = restaurants.Find(restaurant => restaurant.Name.ToLower().Contains(input.ToLower()));
+        currentRestaurant = Restaurant.FindRestaurantByName(input);
         if (currentRestaurant != null) restaurantFound = true;
         else restaurantNotFound = true;
     }
