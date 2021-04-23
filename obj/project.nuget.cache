@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "yx0VqIT2BkfEr+9Z97AUJ/eI5rqRHKAhXz6Otge8OjmVBnhlgilBe147LwBloMrF0HGnAlJubgnY4fM/PKUlpw==",
+  "dgSpecHash": "VABk6yPQfo8aqVdjjgCzwLCJ4mXpx5vIF0MijWwNBoE1b0gzKymhgRLeF55gjuk8y7mIS9Zt/vq1x9qXSQAk2A==",
   "success": true,
-  "projectFilePath": "D:\\Users\\waldo\\Desktop\\PedidosYa\\PedidosYa.csproj",
+  "projectFilePath": "C:\\Users\\kevin\\Projects\\Miracle\\Miracle\\PedidosYa.csproj",
   "expectedPackageFiles": [
-    "D:\\Users\\waldo\\.nuget\\packages\\stub.system.data.sqlite.core.netstandard\\1.0.113.2\\stub.system.data.sqlite.core.netstandard.1.0.113.2.nupkg.sha512",
-    "D:\\Users\\waldo\\.nuget\\packages\\system.data.sqlite.core\\1.0.113.7\\system.data.sqlite.core.1.0.113.7.nupkg.sha512"
+    "C:\\Users\\kevin\\.nuget\\packages\\stub.system.data.sqlite.core.netstandard\\1.0.113.2\\stub.system.data.sqlite.core.netstandard.1.0.113.2.nupkg.sha512",
+    "C:\\Users\\kevin\\.nuget\\packages\\system.data.sqlite.core\\1.0.113.7\\system.data.sqlite.core.1.0.113.7.nupkg.sha512",
+    "C:\\Users\\kevin\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\3.1.14\\microsoft.netcore.app.host.win-x64.3.1.14.nupkg.sha512"
   ],
   "logs": []
 }
