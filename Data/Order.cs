@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PedidosYa.Services;
+using System;
 using System.Collections.Generic;
 
 namespace PedidosYa.Data
@@ -19,5 +20,6 @@ namespace PedidosYa.Data
             this.Bill -= meal.Price;
             this.Ordered.Remove(meal);
         }
+        public void SaveOrder() => DbServices.SaveOrder(this);
     }
 }
