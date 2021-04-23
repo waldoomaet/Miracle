@@ -10,17 +10,6 @@
       <div class="mb-5">
         <h1>¡Bienvenido a PedidosYa!</h1>
         <h4>Selecciona el restaurante de tu preferencia: </h4>
-
-        <div class="input-group" style="max-width: 24rem;">
-          <input type="text" class="form-control" placeholder="¡Busca aqui!" @bind="@input"/>
-          <div class="input-group-append">
-            <button class="btn btn-outline-primary" @onclick="FindRestaurant">Buscar</button>
-          </div>
-        </div>
-
-        @if (!restaurantFound) {
-          <p>Restaurante no encontrado...</p>
-        }
       </div>
     </div>
     
@@ -68,89 +57,97 @@
     </div>
 
     <div class="col-md-4">
-      <h3 class="mb-3">Orden</h3>
+        @if (order.Ordered.Count > 0)
+        {
+            <h3 class="mb-3">Orden</h3>
+            <div class="list-group mb-3">
+                @if (order.Ordered.Count > 0)
+                {
+                    @for (int index = 0; index < order.Ordered.Count; index++)
+                    {
+                        int i = index;
+                        Meal meal = order.Ordered[i];
+                        <li class="list-group-item">
+                            <label class="mr-3">@meal.Name - @meal.Description - $@meal.Price</label>
+                            <button class="btn btn-outline-danger" @onclick="() => order.Remove(meal)">Remover</button>
+                        </li>
+                    }
+                }
+                else
+                {
+                    <li class="list-group-item disabled">No hay ítemes seleccionados...</li>
+                }
+            </div>
 
-      <div class="list-group mb-3">
-        @if (order.Ordered.Count > 0) {
-          @for(int index = 0; index < order.Ordered.Count; index++) {
-            int i = index;
-            Meal meal = order.Ordered[i];
-            <li class="list-group-item">
-              <label class="mr-3">@meal.Name - @meal.Description - $@meal.Price</label>
-              <button class="btn btn-outline-danger" @onclick="() => order.Remove(meal)">Remover</button>
-            </li>
-          }
-        } else {
-          <li class="list-group-item disabled">No hay ítemes seleccionados...</li>
+            <h5 class="mb-3">Total: $@order.Bill</h5>
+
+            @if (order.Ordered.Count > 0)
+            {
+                <button class="btn btn-success" @onclick="ToMap">¡Ordenar!</button>
+            }
         }
-      </div>
-
-      <h5 class="mb-3">Total: $@order.Bill</h5>
-
-      @if (order.Ordered.Count > 0) {
-        <button class="btn btn-success" @onclick="ToMap">¡Ordenar!</button>
-      }
     </div>
   </div>
 
 </section>
 
 @code{
-  private string input = "";
-  private int amount = 1;
-  private List<Restaurant> restaurants = DbServices.GetAllRestaurants();
-  private bool restaurantFound = false;
-  private bool restaurantNotFound = false;
-  private bool mealAmount = false;
-  private Restaurant currentRestaurant;
-  private Meal currentMeal;
-  private Order order = new Order(null);
+    private string input = "";
+    private int amount = 1;
+    private List<Restaurant> restaurants = DbServices.GetAllRestaurants();
+    private bool restaurantFound = false;
+    private bool restaurantNotFound = false;
+    private bool mealAmount = false;
+    private Restaurant currentRestaurant;
+    private Meal currentMeal;
+    private Order order = new Order(null);
 
-  /*protected override void OnInitialized()
-  {
-    // All this has to come from db
-    List<Meal> menu = new List<Meal>()
+    /*protected override void OnInitialized()
     {
-      new Meal("Baconator", "Delicious burguer with lots of bacon", 10.0),
-      new Meal("3/4 punds", "Big burguer for those with big apettite", 12.0),
-      new Meal("Buffalo wings", "Tasty BBQ bathed buffalo wings", 6.0)
-    };
-    restaurants.Add(new Restaurant("Wendy's", 18.463870, -69.960820, 4.8, menu));
-  }*/
+      // All this has to come from db
+      List<Meal> menu = new List<Meal>()
+      {
+        new Meal("Baconator", "Delicious burguer with lots of bacon", 10.0),
+        new Meal("3/4 punds", "Big burguer for those with big apettite", 12.0),
+        new Meal("Buffalo wings", "Tasty BBQ bathed buffalo wings", 6.0)
+      };
+      restaurants.Add(new Restaurant("Wendy's", 18.463870, -69.960820, 4.8, menu));
+    }*/
 
-  private void ChooseAmount(Meal meal)
-  {
-    mealAmount = true;
-    currentMeal = meal;
-  }
+    private void ChooseAmount(Meal meal)
+    {
+        mealAmount = true;
+        currentMeal = meal;
+    }
 
-  private void AddToOrder()
-  {
-    order = new Order(currentRestaurant);
-    for (; amount > 0; amount--) order.Add(currentMeal);
-    amount = 1;
-    mealAmount = false;
-  }
+    private void AddToOrder()
+    {
+        if (order == null) order = new Order(currentRestaurant);
+        for (; amount > 0; amount--) order.Add(currentMeal);
+        amount = 1;
+        mealAmount = false;
+    }
 
-  private void SelectRestaurant(string name) {
-    System.Console.WriteLine(name);
-    currentRestaurant = Restaurant.FindRestaurantByName(name);
-    if (currentRestaurant != null) restaurantFound = true;
-    else restaurantNotFound = true;
-  }
+    private void SelectRestaurant(string name) {
+        System.Console.WriteLine(name);
+        currentRestaurant = Restaurant.FindRestaurantByName(name);
+        if (currentRestaurant != null) restaurantFound = true;
+        else restaurantNotFound = true;
+    }
 
-  private void FindRestaurant()
-  {
-    currentRestaurant = null;
-    currentMeal = null;
-    order = null;
-    currentRestaurant = Restaurant.FindRestaurantByName(input);
-    restaurantFound = currentRestaurant == null;
-  }
+    private void FindRestaurant()
+    {
+        currentRestaurant = null;
+        currentMeal = null;
+        order = null;
+        currentRestaurant = Restaurant.FindRestaurantByName(input);
+        restaurantFound = currentRestaurant == null;
+    }
 
-  private void ToMap()
-  {
-    ToShare.Order = order;
-    NavigationManager.NavigateTo("/map");
-  }
+    private void ToMap()
+    {
+        order.Restaurant = currentRestaurant;
+        ToShare.Order = order;
+        NavigationManager.NavigateTo("/map");
+    }
 }

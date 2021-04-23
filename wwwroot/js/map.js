@@ -47,3 +47,7 @@ function placeMarker(location) {
             }
         });
 }
+
+function alert() {
+    alert("¡Tu pedido ya va en camino!");
+}
